@@ -1,0 +1,29 @@
+FROM php:7.2.24-apache
+
+# See this note: https://github.com/docker-library/docs/tree/master/php#e-package-php-xxx-has-no-installation-candidate
+# Basically, the image authors disables debian packages to prevent you installing multiple php's
+# If you want to add modules, do so with provided tools:
+# pecl
+# phpize
+# docker-php-ext-install
+
+# OK, this is debian and not centos, but oh well
+# Need to add .so modules to connect to mysql from php
+RUN apt update -y
+RUN apt upgrade -y
+RUN apt install -y \
+  vim
+
+# Modules added by tools found through trial/error
+RUN pecl install xdebug
+RUN docker-php-ext-install mysqli
+
+# Make development config THE config
+RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+
+# Make modifications to the php config file
+# RUN sed -i s/'error_reporting = E_ALL'/'error_reporting = E_ALL \& ~E_NOTICE'/g $PHP_INI_DIR/php.ini
+
+# Adjust php.ini so that php can find modules
+RUN echo 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so' >> $PHP_INI_DIR/php.ini
+RUN echo 'extension=/usr/local/lib/php/extensions/no-debug-non-zts-20170718/mysqli.so' >> $PHP_INI_DIR/php.ini

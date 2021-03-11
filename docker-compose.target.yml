@@ -1,0 +1,32 @@
+version: '3.1'
+services:
+  php:
+    container_name: apache-php72
+    image: apache-php72:latest
+    build:
+      dockerfile: Dockerfile.php72
+      context: .
+    depends_on:
+      - 'db'
+    ports:
+      - '3050:80'
+    volumes:
+      - ./DatasetTracker:/var/www/html
+    environment:
+        - MYSQL_HOST
+        - MYSQL_USER
+        - MYSQL_PASSWORD
+        - MYSQL_ROOT_PASSWORD
+        - MYSQL_DATABASE
+  db:
+      container_name: mariadb10
+      image: mariadb:10.3.27
+      restart: always
+      environment:
+          - MYSQL_HOST
+          - MYSQL_USER
+          - MYSQL_PASSWORD
+          - MYSQL_ROOT_PASSWORD
+          - MYSQL_DATABASE
+      volumes:
+        - ./sql-dump:/docker-entrypoint-initdb.d

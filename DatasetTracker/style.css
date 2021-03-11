@@ -1,0 +1,90 @@
+.searchFormGroupHeader
+{
+  margin-top: 1em;
+  font-size: 1.5em;
+  font-weight: bold;
+  background-color:#BBB;
+}
+
+.searchFormKeyword
+{
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.searchFormConstraint
+{
+  display:table-cell;
+  vertical-align: top ! important;
+}
+
+.searchFormShow
+{
+  font-size: 0.7em;
+  font-weight: normal;
+  vertical-align: top;
+}
+
+.searchFormSmall
+{
+  font-size: 0.7em;
+  font-weight: normal;
+}
+
+.dateFormat
+{
+  font-family: courier;
+  border: 1px;
+  border-style: solid;
+  padding: 2px
+}
+
+.error
+{
+  color: #D00;
+}
+
+.hint {
+  display:none;
+  position: absolute; 
+  width: 250px;
+  margin-top: -4px;
+  border: 1px solid #c93;
+  padding: 10px 12px;
+  background: #ffc url(misc/pointer.gif) -100px -100px no-repeat;
+}
+
+.hint .hint-pointer {
+    position: absolute;
+    left: -10px;
+    top: 5px;
+    width: 10px;
+    height: 19px;
+    background: url(misc/pointer.gif) left top no-repeat;
+}
+
+table {
+  empty-cells: show;
+}
+
+table.info-table {
+  border-spacing: 0px;
+  empty-cells: show;
+}
+
+table.result-table {
+  border-spacing: 1px;
+}
+
+table.result-table td {
+  padding: 4px;
+}
+
+table.spreadsheet-table {
+  border-spacing: 2px;
+  border-color: black;
+}
+
+table.spreadsheet-table td {
+  padding: 2px;
+}

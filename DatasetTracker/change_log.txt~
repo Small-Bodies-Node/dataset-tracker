@@ -1,0 +1,205 @@
+2013-04-10 by SBN:Lev Nagdimunov
+-->{file:include/spreadsheet.action.php} Changed deprecated variable $HTTP_POST_VARS to $_POST
+-->(file:include/search.action.php} Updated minError, maxError, minValid, maxValid to check if isset before calling
+
+2013-03-20 by SBN:Lev Nagdimunov
+
+-->{file:include/include.php} Updated function getParameterHTTP to not rely on register_globals
+-->{file:include/include.php} Updated function connectToDB to throw error if unable to connect to the database
+-->{file:include/search.form.php) Changed incorrect $ENT_QUOTES to ENT_QUOTES
+-->{file:include/view.php} Updated $navigation to check if isset before calling
+-->{file:index.php} Updated $overridePage to check if isset before calling
+-->{file:include/search.form.php} Updated $errors to check if isset before calling
+-->{file:include/edit.form.php} Updated $errors to check if isset before calling
+-->{file:include/edit.form.php} Updated $row[$keyword] to check if isset before calling
+-->{file:include/descriptions.php} Updated $keyword["example"] to check if isset before calling
+
+
+2012-11-28 by SBN:Tilden Barnes
+
+* (file:include/dbSettings.php) For object "OLAF_DELIVERY_FLAG" fixed valid values value "yes" to "full".
+
+* Removed MISSION_ID field.
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo.
+--> (file:include/search.form.php) Removed 'searchTerm' value in main html code part.
+--> (file:include/edit.action.php) Removed specific code for MISSION_NAME and MISSION_ID in functions 'insertObject()' and 'updateValue()'.  Removed skip code and edited case:'object' code for 'updateValue()' function.  
+--> (file:include/edit.form.php) Removed code in the 'editValue()' function for case:'object' for MISSION_NAME and MISSION_ID.
+--> (file:include/list.php) Updated the code giving a list of Missions so it will no longer include MISSION_ID.
+
+* (file:include/list.php) Added a "Home" button on the list page.
+
+* Removed REVIEW_EN_INGEST_DATE and FINAL_DATA_ACCEPTED_DATE fields.
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo.
+--> (file:include/search.form.php) Removed 'searchTerm' value in main html code part.
+
+
+=======================================
+2012-10-05b by SBN:Tilden Barnes
+
+* Removed all occurances of the output text "dataset" with "data set".  The following files were affected:
+--> (file:include/spreadsheet.form.php)
+--> (file:include/search.results.php)
+--> (file:include/edit.action.php)
+--> (file:include/remove.form.php)
+--> (file:include/help.php)
+
+=======================================
+2012-10-05 by SBN:Tilden Barnes
+
+* Added field description and example data for fields.
+--> (file:include/dbSettings.php) Added $keywordInfo[*]["description"] for most fields.  Also added $keywordInfo[*]["example"] for some fields.
+
+* Added pop-up descriptions for fields when on focus for 'Edit Dataset Info' and 'Search Form' pages.
+--> (file:include/edit.form.php) 
+--> --> Added two java scripts hintShow() and hintHide().  
+--> --> Added onfocus and onblur statements inside each input/text object to point to the hint.  
+--> --> Added 'hints' in the error column that will popup when the corresponding field is active.  
+--> --> Removed else statement in error checking since it was pointless because there will always at least be a hint.
+--> --> Made error column fields vertically align so the popup boxes will appear at the top and not center.
+--> (file:include/search.form.php)
+--> --> Added two java scripts hintShow() and hintHide().  
+--> --> Expanded the column range in searchGroup() since we added a column for hints.
+--> --> Edited checkboxInput(), textInput(), multiselectInput() to take an additional elements that would be used to describe the input field.
+--> --> Edited all calls of checkboxInput(), textInput(), multiselectInput() to include the extra option, either a blank "" or the onfocus/onblur statements.
+--> --> Added the 'hint' text to searchTermClosing() so the extra hint column would be added.
+--> (file: style.css)  Added .hint and .hint-pointer css code.
+--> (directory:misc) NEW DIRECTORY. Directory to house misc files for the webpage.
+--> (file: misc/point.gif) NEW FILE.  Icon for the 'hint' pop up boxes.
+
+* Added Field Description 'help' page.
+--> (file:include/descriptions.php) NEW FILE.  Html page that contains a alphabetic table of the fields and their descriptions and types.
+--> (file:include/root.php) Added a new page link for Field Description page.
+--> (file:include/index.php) Added a new case that would include the new file when called.
+
+* Made the 'Edit Dataset Info' form narrower by altering some of the field lengths.
+--> (file:include/edit.form.php) Shortened column lengths for textareas, date fields, number fields, and comments.  Added unique case for 'text' since the length is different than 'number' in the editValue() function.
+
+* Corrected TARGET_NAME/TYPE logic.  It caused the label "Target" to be "Target Type".
+--> (file:include/edit.form.php)  elseif statement at start of editValue() function change from "TARGET_TYPE" to "TARGET_NAME"
+
+* (file:include/edit.form.php) Logic Fix: elseif "or 'TARGET_TYPE'" should be "or $keyword != 'TARGET_TYPE'" in editValue() function.
+
+* (file:include/help.php) Added 'Home' button to top of page.
+
+=======================================
+2012-09-21 by SBN:Tilden Barnes
+
+* Changed FERRET_COMMENT field's 'type' from "text" to "longtext".
+--> (file:include/dbSettings.php) Updated $keywordInfo["FERRET_COMMENT"["type"]]
+
+* Added ability to do null searchs for date fields.
+--> (file:include/dbSettings.php) Added "-null" to $passThrough["date"].
+--> (file:include/search.form.php) Added null option code for 'searchTermDate' function.
+
+* Added TARGET_TYPE field.
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo.
+--> (file:include/search.form.php) Added 'searchTerm' value in main html code part.
+--> (file:include/edit.action.php) Added specific code for TARGET_NAME and TARGET_TYPE similar to MISSION_ID and MISSION_NAME in functions 'insertObject()' and 'updateValue()'.  Added skip code and edited case:'object' code for 'updateValue()' function.  
+--> (file:include/edit.form.php) Added code in the 'editValue()' function for case:'object' for TARGET_NAME and TARGET_TYPE similar to MISSION_ID adn MISSION_NAME.
+--> (file:include/list.php) Updated the code giving a list of Targets so it will include TARGET_TYPE as well. (Also fixed a missing end "</table>" at the end of the Mission Table.)
+
+* (file:include/help.php) Added text to the help page about the additional object and "1900-01-01" standard date.
+
+
+=======================================
+2012-09-21 by SBN:Tilden Barnes
+
+* Corrected for fields that are or become empty will stay empty.  Ex: date field used to put "0000-00-00" for an empty field.
+--> (file: inlcude/edit.action.php) The 'updateValue' function case:date was updated to check for empty fields.  if found made them NULL instead of empty text.
+--> (file: inlcude/spreadsheet.action.php) The 'handleField' function case:date was updated to check for empty fields.  if found made them NULL instead of empty text.
+--> NOTE: I did not fix the situation when you insert a new dataset.  But once you do any edit it will fix the "0000-00-00".  Code is in file:'include/edit.action.php'.
+
+
+=======================================
+2012-09-18 by SBN:Tilden Barnes
+
+* Removed 'new/' 'old/' 'new2/' directories.
+
+
+=======================================
+2012-09-17 by SBN:Tilden Barnes
+
+* Reordered output for search results so that FERRET_COMMENT is at the end (per Stef request).
+--> (file:include/dbSettings.php) Updated $outputOrder putting keyword at the end with the other long text fields.
+
+
+=======================================
+2012-09-12 by SBN:Tilden Barnes
+
+* Added new fields: "SUPERSEDED_DS_ID" and "RELEASE_DATE_FIRST" and "DRAFT_DATA_RECEIVED_DATE_FIRST" and "OBSERVATION_TYPE"
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo with new keywords.
+--> (file:include/search.form.php) Added 'searchTerm' values in main html code part.
+
+* Changed Display Name from "Release Date" to "Most Recent Release Date" for RELEASE_DATE
+--> (file:include/dbSettings.php) Updated $keywordInfo{"RELEASE_DATE"{displayName}}
+
+* Changed Display Name from "Draft Data Received Date" to "Draft Data Most Recent Delievery Date" for DRAFT_DATA_RECEIVED_DATE
+--> (file:include/dbSettings.php) Updated $keywordInfo{"RELEASE_DATE"{displayName}}
+
+* Changed OLAF_DELIVERY_FLAG from a 'flag' to a 'set' with the values: 'yes', 'no', 'partial'
+--> (file:include/dbSettings.php) Updated $keywordInfo{"OLAF_DELIVERY_FLAG"}
+
+* Deleted (commented out) field "REVISED_CATALOG_FILES_TO_EN_DATE".
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo.
+--> (file:include/search.form.php) Commented out 'searchTerm' values in main html code part.
+
+
+=======================================
+2012-09-10 by SBN:Tilden Barnes
+
+* Removed (commented out) the following fields: "WEBSITE_DS_NAME"
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo.
+--> (file:include/search.form.php) Commented out 'searchTerm' values in main html code part.
+ 
+* Removed (commented out) the following values from "DEVELOPMENT_STATUS": 'internal rev’, ‘online’, ‘delivered’.
+--> (file:include/dbSettings.php) Updated $keywordInfo.
+
+* Changed "REVIEW_RESULT" from an open text field to a 'set' of values.
+--> (file:include/dbSettings.php) Edited field in $keywordInfo.
+
+* Added new Ferret fields: "FERRET_STATUS" and "FERRET_COMMENT"
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo with new keywords.
+--> (file:include/search.form.php) Added 'searchTerm' values in main html code part.
+--> (file:include/edit.form.php) Added default value FERRET_STATUS = "Not Decided" to IF ($new).
+
+* Changed the flag values for DISCREPENCY_FLAG (aka PDS Non-Compliant).
+--> (file:include/dbSettings.php) Updated $positive/$negative flags to: "Non-Compliant"/"Compliant" in $keywordInfo.
+
+* Renamed value "done" to "see notes" for ARCHIVE_STATUS.
+--> (file:include/dbSettings.php) Updated $keywordInfo["ARCHIVE_STATUS"["legalValues"]]
+
+
+=======================================
+2012-08-31 by SBN:Tilden Barnes
+
+* Removed (commented out) the following fields: "DRAFT_DATA_ACCEPTED_DATE", "PROFILE_SERVER_INGEST_DATE", "HARDCOPY_MADE_DATE", "LAST_HARD_COPY_REFRESH_DATE"
+--> (file:include/dbSettings.php) Updated $viewOrder, $outputOrder, and $keywordInfo.
+--> (file:include/search.form.php) Commented out 'searchTerm' values in main html code part.
+
+* (file:include/dbSettings.php) Renamed fields' "displayName" by updating $keywordInfo for each value:
+--> DISCREPANCY_FLAG: from "Discrepancy" to "PDS Non-Compliant"
+--> VOLUME_ID: from "Volume ID" to "Volume ID and Version"
+--> DATA_SET_NAME: from "Dataset Name" to "Data Set Display Name"
+--> SUBNODE_ID: from "Subnode ID" to "Node/Subnode ID"
+--> CATALOG_FILES_TO_NSSDC_DATE: from "Catalog files to NSSDC Date" to "NSSDC ID Requested Date"
+--> NSSDC_UPLOAD_DATE: from "NSSDC Upload Date" to "Data sent to NSSDC Date"
+
+* (file:include/dbSettings.php) Redefined values of SUBNODE_ID to be: 'SBN-PSI', 'SBN-UMD', by altering "legalValues" array for SUBNODE_ID in $keywordInfo.
+
+
+=======================================
+2012-05-10 by SBN:Tilden Barnes
+
+* (file:include/search.form.php) Changed the search form field order so that 'Review Result' is next to and after 'Review Date'.  Before they were not near each other.
+
+* (files:include/dbSettings.php;include/search.form.php) Added CERTIFIED_FLAG field.  It is not a 'flag' per-say at this time because we want to keep the ability to have a null or non-standard value.
+
+
+=======================================
+2012-05-04 by SBN:Tilden Barnes
+
+* (file:include/dbSettings.php) Changed the KeywordInfo->DEVELOPMENT_STATUS options order by switching the positions of NSSDC_Deposit and EN_Ingested.  EN_Ingested is now before NSSDC_Deposit, because NSSDC_Deposit is the last thing that should happen.
+
+* (file:include/edit.form.php) Added default values (of '1') for new datasets (aka 'if $new') for REPORT_TO_EN and ACTIVE_FLAG.
+
+* (files:include/dbSettings.php;include/search.form.php) Added WEBSITE_DS_NAME field.
