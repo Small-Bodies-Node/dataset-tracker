@@ -29,7 +29,7 @@ For local development:
 Here are a bunch of notes about various issues encountered when doing migration/upgrade:
 
 - Old code used `@` before certain variables to suppress errors/warnings. As expressed [here](https://stackoverflow.com/a/4151431/8620332) this is "pure evil"
-- Old deployment did not use SSL, we need this to securely transmit. There is no excuse anymore to not have SSL thanks to letsencrypt
+- Old deployment did not use SSL, we need this to securely transmit credentials
 - Deprecated `mysql_pconnect`
 - Password to DB hardcoded in; needs to be separated out into .env file
 - Old code used the short-hand tag `<? ...`. This is [not universally compatible](https://stackoverflow.com/q/200640/8620332) and it is recommended that these be replaced with more explicit `<?php`

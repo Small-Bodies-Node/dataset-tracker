@@ -58,7 +58,7 @@ class DotEnv
  */
 try {
   // Load all env vars into $_ENV
-  (new DotEnv(__DIR__ . '/../.env'))->load();
+  (new DotEnv(__DIR__ . '/../../.env'))->load();
   // echo ">>>>> " . getenv('MY_TEST_ENV'). "<br><br>";
 } catch (Exception $e) {
   // Exceptions always raised in development; just ignore
