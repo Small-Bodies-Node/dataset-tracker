@@ -1,5 +1,4 @@
 <?php
-
 ensurePrivileges("edit");
 
 echo ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">");
@@ -7,13 +6,16 @@ echo ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">");
 $clone = getParameter("clone");
 $new = getParameter("new");
 
+
+echo "New: " . $new . " \n\n\n   ";
+
 if ($new) {
 
   $uuid = 0;
   $searchUUID = 0;
   $row = array();
 
-  /* Default values */
+  /*Default values*/
   $row['ACTIVE_FLAG'] = 1;
   $row['REPORT_TO_EN'] = 1;
   $row['FERRET_STATUS'] = "Not Decided";
@@ -191,7 +193,7 @@ if ($new) {
 
 </html>
 
-<?
+<?php
 
 function editValue($keyword)
 {
@@ -199,10 +201,10 @@ function editValue($keyword)
 
   $info = $keywordInfo[$keyword];
 
-  // if ($keyword == "MISSION_NAME") {
-  //   return;
-  // }
-
+  /*   if ($keyword == "MISSION_NAME") {
+      return;
+   }
+*/
   if ($keyword == "TARGET_TYPE") {
     return;
   }
@@ -210,7 +212,12 @@ function editValue($keyword)
 ?>
   <tr style="background-color: <?= rowColor() ?>">
     <?php
-    if ($keyword == "TARGET_NAME") {
+    /*     if ($keyword == "MISSION_ID") {
+	?>
+        <td nowrap="1" style="font-weight: bold">Mission</td>
+        <td>&nbsp;</td>
+	<?php
+     } else*/ if ($keyword == "TARGET_NAME") {
     ?>
       <td nowrap="1" style="font-weight: bold">Target</td>
       <td>&nbsp;</td>
@@ -339,11 +346,11 @@ function editValue($keyword)
 		       <th>Mission Name</th>
 		     </tr>
 		     <?php
-  	             $results = mysqli_query($_LINK, "SELECT `MISSION_ID`, `MISSION_NAME`".
+  	             $results = mysql_query("SELECT `MISSION_ID`, `MISSION_NAME`".
 					    " FROM `MISSION`".
 					    " WHERE `UUID`=$searchUUID");
 		     $n = 0;
-	             while ($objRow = mysqli_fetch_array( $results)) {
+	             while ($objRow = mysql_fetch_array($results)) {
 			$idValue = getParameter("MISSION_ID-".$n);
 			if ($idValue == "")
 			   $idValue = $objRow["MISSION_ID"];
@@ -359,7 +366,7 @@ function editValue($keyword)
 			     <input type="text" name="MISSION_NAME-<?=$n?>" value="<?=htmlspecialchars($nameValue, ENT_QUOTES)?>" onfocus="hintShow('MISSION_NAMEhint')" onblur="hintHide('MISSION_NAMEhint')" />
 			  </td>
 		        </tr>
-		        <?
+		        <?php
 		        ++$n;
 		     }
 		     $last = $n - 1;
@@ -378,7 +385,7 @@ function editValue($keyword)
 			     <input type="text" name="MISSION_NAME-<?=$n?>" value="<?=htmlspecialchars($nameValue, ENT_QUOTES)?>" onfocus="hintShow('MISSION_NAMEhint')" onblur="hintHide('MISSION_NAMEhint')" />
 			  </td>
 		        </tr>
-		        <?
+		        <?php
 		        ++$n;
 		     }
 		     $max = max($last + 5, 10);
@@ -392,13 +399,13 @@ function editValue($keyword)
 			     <input type="text" name="MISSION_NAME-<?=$n?>" onfocus="hintShow('MISSION_NAMEhint')" onblur="hintHide('MISSION_NAMEhint')" />
 			  </td>
 		        </tr>
-		        <?
+		        <?php
 		        ++$n;
 		     }
 		     ?>
 		   </table>
 		   <input type="hidden" name="MISSION-count" value="<?=$max?>" />
-		   <?
+		   <?php
 		} else*/
             if ($keyword == "TARGET_NAME") {
             ?>
@@ -544,7 +551,7 @@ function editValue($keyword)
       <span class="hint" id="<?= $keyword ?>hint"><?= $info["description"] ?><span class="hint-pointer">&nbsp;</span></span>
     </td>
   </tr>
-<?
+<?php
 }
 
 ?>
