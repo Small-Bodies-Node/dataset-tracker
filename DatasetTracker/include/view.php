@@ -130,7 +130,7 @@ if (!isset($navigation) || $navigation == "")
 
 </html>
 
-<?
+<?php
 
 function showValue($keyword)
 {
@@ -205,7 +205,7 @@ function showValue($keyword)
     }
     ?>
   </td>
-<?
+<?php
 }
 
 ?>

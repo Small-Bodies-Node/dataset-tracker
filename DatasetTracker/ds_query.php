@@ -2,7 +2,6 @@
 
 include("include/include.php");
 
-echo " <br><br><br> debug 0 <br><br><br>  ";
 
 if (getenv("REMOTE_USER") != "util") {
   ensurePrivileges("edit");
@@ -37,11 +36,6 @@ if ($DATA_SET_ID) {
   $MIGRATION_TO_DS = $row["MIGRATION_TO"];
   $DOI = $row["DOI"];
 
-  echo " <br><br><br> debug 1 <br><br><br>  ";
-  echo " <br><br><br> " . $MIGRATION_TO_DS . " <br><br><br> ";
-  echo " <br><br><br> debug 2 <br><br><br>  ";
-
-
   # Find DATA_SET_ID for data set that supersedes this one
   $SQL = sprintf(
     "SELECT DATA_SET_ID,SUPERSEDED_DS_ID FROM DATASET WHERE SUPERSEDED_DS_ID like '%%%s%%'",
@@ -49,7 +43,6 @@ if ($DATA_SET_ID) {
   );
   $sql_que = mysqli_query($_LINK, $SQL);
   while ($row = mysqli_fetch_assoc($sql_que)) {
-    echo " <br> debug 3 <br>  ";
     $SUPERSEDING_DS_ID .= $row["DATA_SET_ID"] . ";";
   }
   #   $row = mysqli_fetch_array( mysqli_query($_LINK, $SQL));

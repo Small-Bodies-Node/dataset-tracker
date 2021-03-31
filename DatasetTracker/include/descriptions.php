@@ -59,7 +59,7 @@ echo ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">");
 
 </html>
 
-<?
+<?php
 function fieldRow($keyword)
 {
 ?>
@@ -69,7 +69,7 @@ function fieldRow($keyword)
     <td><?php echo $keyword["description"] ?></td>
     <td><?php echo (isset($keyword["example"])) ? $keyword["example"] : ''; ?></td>
   </tr>
-<?
+<?php
 }
 
 function convertType($type)
