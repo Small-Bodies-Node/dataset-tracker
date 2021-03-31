@@ -34,3 +34,4 @@ Here are a bunch of notes about various issues encountered when doing migration/
 - Password to DB hardcoded in; needs to be separated out into .env file
 - Old code used the short-hand tag `<? ...`. This is [not universally compatible](https://stackoverflow.com/q/200640/8620332) and it is recommended that these be replaced with more explicit `<?php`
 - Wherever `split('pattern', ...)` occurred, DWD simply replaced with `preg_split('/pattern/', ...)`; check this over if there is any inconsistent behavior
+- I got hung up for a while on issue related to MYSQL_HOST env var. Basically, if you are using mysql (as we are in legacy), then supplying MYSQL_HOST in 'db' block of docker-compose file will mess it up -- it will be confused as to what its host is. So only add this var to apache block, if at all.
