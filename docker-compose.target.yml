@@ -23,7 +23,6 @@ services:
       image: mariadb:10.3.27
       restart: always
       environment:
-          - MYSQL_HOST
           - MYSQL_USER
           - MYSQL_PASSWORD
           - MYSQL_ROOT_PASSWORD
