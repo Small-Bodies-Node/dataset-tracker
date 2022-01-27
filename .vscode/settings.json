@@ -3,7 +3,7 @@
   "intelephense.environment.phpVersion": "7.2.30",
   "[php]": {
     // "editor.defaultFormatter": "junstyle.php-cs-fixer"
-    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    "editor.defaultFormatter": "wongjn.php-sniffer"
   },
   "intelephense.stubs": [
     "apache",
