@@ -1,18 +1,18 @@
 <?php
 
 require "dbSettings.php";
-
 require_once "dotenv.php";
+
 
 function connectToDB()
 {
-    $db_link = mysqli_connect( //
+    $dbLink = mysqli_connect( //
         getenv('MYSQL_HOST'),
         getenv('MYSQL_USER'),
         getenv('MYSQL_PASSWORD'),
         getenv('MYSQL_DATABASE')
     );
-    return $db_link;
+    return $dbLink;
 }
 // Define Global Constant
 $_LINK =  connectToDB();
@@ -32,7 +32,7 @@ function hasPrivileges($domain)
 function ensurePrivileges($domain)
 {
     if (!hasPrivileges($domain)) {
-        echo ("access denied");
+        echo("access denied");
         echo "domain = " . $domain;
         exit();
         header('HTTP/1.0 401 Unauthorized', true, 401);
@@ -114,7 +114,8 @@ function getParameterHTTP($name, $default = null)
     if (!isset($value) || $value === null) {
         // $value is still not defined, use the default
         $value = $default;
-    } elseif (get_magic_quotes_gpc()) {
+        // } elseif (get_magic_quotes_gpc()) {
+    } elseif (true) {
         // Strip slashes, necessary when get_magic_quotes_gpc() is true
         if (gettype($value) != "array") {
             $value = stripslashes($value);

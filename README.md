@@ -1,37 +1,21 @@
-# What's This?
+# DatasetTracker
 
-Repo to explore migration of DatasetTracker from php5.6 to php7.2
+## Overview
 
-## Approach Overview
+This is a LAMP-stack application used by the Small-Bodies Node at the University of Maryland to track meta data describing their datasets. This implementation has been migrated from UMD linux servers to docker to be deployed on remote servers.
 
-- Use docker container to get 'legacy' code working locally with legacy version of mysql and php
+## Quick Start (local development)
 
-- Use docker container to get update 'target' code working locally with target version of mysql and php
+- Install `docker` and `docker-compose` on your machine
+- Copy `.env-template` to `.env` and edit
+- You need to have a pre-populated mysql development DB
+  - If you have a mysql-dump file, then you can use `_restore_mysql` to populate it
+  - If you do not have a mysql-dump file, then you'll need to contact a member of the sbn team at UMD
+- To run locally in dev mode: `docker-compose -f docker-compose.dev.yml up`
+- Go to http://localhost:3000 (or whatever port you set in `.env`) and enter 'admin' as user and hit enter (with no password)
 
-## Quickstart
+## Production
 
-For local development:
+In addition to the quick start instructions, you need to:
 
-- Copy `.env-template` to `.env`
-
-- Install docker locally, then run bash script `./_docker_manager` for options
-
-- All local code is viewable on the $PORT defined in `_docker_manager`, 3050 at the moment. When docker is running, go to `localhost:3050` in your browser
-
-- Basic auth credentials in development: admin - password
-
-## Deployment
-
-[TODO]
-
-## Dev Notes
-
-Here are a bunch of notes about various issues encountered when doing migration/upgrade:
-
-- Old code used `@` before certain variables to suppress errors/warnings. As expressed [here](https://stackoverflow.com/a/4151431/8620332) this is "pure evil"
-- Old deployment did not use SSL, we need this to securely transmit credentials
-- Deprecated `mysql_pconnect`
-- Password to DB hardcoded in; needs to be separated out into .env file
-- Old code used the short-hand tag `<? ...`. This is [not universally compatible](https://stackoverflow.com/q/200640/8620332) and it is recommended that these be replaced with more explicit `<?php`
-- Wherever `split('pattern', ...)` occurred, DWD simply replaced with `preg_split('/pattern/', ...)`; check this over if there is any inconsistent behavior
-- I got hung up for a while on issue related to MYSQL_HOST env var. Basically, if you are using mysql (as we are in legacy), then supplying MYSQL_HOST in 'db' block of docker-compose file will mess it up -- it will be confused as to what its host is. So only add this var to apache block, if at all.
+- create a `.htpasswd` file in the root of this project and enter credentials for `admin`, `user`, `view` and `util`. The format for these credentials can be seen in the `src/.htpasswd` file. To generate a new line for each user-password combo, run `htpasswd -n` on a unix command line.

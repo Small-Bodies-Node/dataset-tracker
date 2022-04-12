@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Script to connect to new DB and restore from dump file
+
+source .env
+
+mysql \
+  --user="$MYSQL_USER" \
+  --host="$MYSQL_HOST" \
+  --password="$MYSQL_PASSWORD" \
+  --execute="CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE"
+
+mysql \
+  --user="$MYSQL_USER" \
+  --host="$MYSQL_HOST" \
+  --database="$MYSQL_DATABASE" \
+  --password="$MYSQL_PASSWORD" <"sql-dump/20220323.sql"

@@ -1,7 +1,12 @@
 ### My generic place for scrap materials
-redundant
+.redundant
 
 ### Misc
 .env
 .DS_Store
 **/error_log
+.notes
+
+.htpasswd
+
+sql-dump/*.sql

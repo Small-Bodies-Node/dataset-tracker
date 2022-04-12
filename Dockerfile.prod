@@ -1,0 +1,25 @@
+FROM php:7.4-apache
+
+RUN apt update -y
+RUN apt upgrade -y
+RUN apt install -y vim
+
+# Modules added by tools found through trial/error
+# See this note: https://github.com/docker-library/docs/tree/master/php#e-package-php-xxx-has-no-installation-candidate
+# Basically, the image authors disables debian packages to prevent you installing multiple php's
+# If you want to add modules, do so with provided tools:
+# pecl
+# phpize
+# docker-php-ext-install
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install bcmath
+
+# Make prod config THE config
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+
+# Copy codebase into image
+COPY ./src /var/www/html
+
+# Copy .htaccess created for this particular instance
+COPY ./.htpasswd /var/www/html/.htpasswd
+
