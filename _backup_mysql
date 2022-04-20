@@ -1,0 +1,169 @@
+#!/bin/bash
+#
+# Determine if a dated file needs to be removed or not (and delete accordingly)
+# Modified from: https://opensource.com/article/18/8/automate-backups-raspberry-pi
+
+source .env
+
+##################################################
+# Create logical dated backup file from mysql DB
+# Globals:
+#   BACKUP_DIR
+# Arguments:
+#   None
+##################################################
+function backup_today() {
+  local TODAY=$(date +%Y-%m-%d)
+  mysqldump \
+    --no-tablespaces \
+    --set-gtid-purged=OFF \
+    --user="$MYSQL_USER" \
+    --host="$MYSQL_HOST" \
+    --password="$MYSQL_PASSWORD" \
+    --add-drop-database --databases \
+    "$MYSQL_DATABASE" >"$BACKUP_DIR/$TODAY.sql"
+  echo -e "${GRE}>>> Last mysqldump: $BACKUP_DIR/$TODAY.sql${WHI}"
+}
+
+##################################################
+# For each of the last 5 years, list the most
+# recently dated file of the form *YYYY-MM-DD*
+# Globals:
+#   BACKUP_DIR
+# Arguments:
+#   None
+##################################################
+function list_yearly_backups() {
+  for i in 0 1 2 3 4 5; do
+    ls ${BACKUP_DIR} | egrep "$(date +%Y -d "${i} year ago")-[0-9]{2}-[0-9]{2}" | sort -u | head -n 1
+  done
+}
+
+##################################################
+# For each of the last 12 months, list the most
+# recently dated file of the form *YYYY-MM*
+# Globals:
+#   BACKUP_DIR
+# Arguments:
+#   None
+##################################################
+function list_monthly_backups() {
+  for i in 0 1 2 3 4 5 6 7 8 9 10 11 12; do
+    ls ${BACKUP_DIR} | egrep "$(date +%Y-%m -d "${i} month ago")-[0-9]{2}" | sort -u | head -n 1
+  done
+}
+
+##################################################
+# For each of the last 4 weeks, list the dated
+# file of the form *YYYY-MM-DD* for monday of that
+# week
+# Globals:
+#   BACKUP_DIR
+# Arguments:
+#   None
+##################################################
+function list_weekly_backups() {
+  for i in 0 1 2 3 4; do
+    ls ${BACKUP_DIR} | grep "$(date +%Y-%m-%d -d "last monday -${i} weeks")"
+  done
+}
+
+##################################################
+# For each of the last 6 days, list the dated
+# file of the form *YYYY-MM-DD* for that day
+# Globals:
+#   BACKUP_DIR
+# Arguments:
+#   None
+##################################################
+function list_daily_backups() {
+  for i in 0 1 2 3 4 5 6; do
+    ls ${BACKUP_DIR} | grep "$(date +%Y-%m-%d -d "-${i} day")"
+  done
+}
+
+##################################################
+# Accumulate all files that we want to preserve
+# for the different time periods
+# Globals:
+#   None
+# Arguments:
+#   None
+##################################################
+function get_all_backups() {
+  list_yearly_backups
+  list_monthly_backups
+  list_weekly_backups
+  list_daily_backups
+}
+
+##################################################
+# Remove duplicates from the files that we want to
+# preserve for the different time periods
+# Globals:
+#   None
+# Arguments:
+#   None
+##################################################
+function list_unique_backups() {
+  get_all_backups | sort -u
+}
+
+##################################################
+# List for deletion any file in backup dir that is
+# NOT listed by the list_unique_backups function
+# NOTE: sed here adds an 'OR' in between the items
+# listed by the list_unique_backups function, and
+# 'grep -v' serves to negate the match
+# Globals:
+#   BACKUP_DIR
+# Arguments:
+#   None
+##################################################
+function list_backups_to_delete() {
+  ls ${BACKUP_DIR} | grep -v -e "$(echo -n $(list_unique_backups) | sed "s/ /\\\|/g")"
+}
+
+##################################################
+# Perform deletion of files determined by logic
+# of the list_backups_to_delete function
+# Globals:
+#   BACKUP_DIR
+# Arguments:
+#   None
+##################################################
+function delete_backups() {
+  cd ${BACKUP_DIR}
+  list_backups_to_delete | while read file_to_delete; do
+    rm -rf ${file_to_delete}
+  done
+}
+
+###
+###
+###
+###
+###
+###
+###
+
+function main() {
+
+  if [[ -z $BACKUP_DIR ]]; then
+    echo -e "${RED}>>> BACKUP_DIR is not defined! Set and source in .env${WHITE}"
+    exit 1
+  fi
+
+  echo -e "${GRE}>>> Deleting backups...${WHI}"
+  backup_today
+
+  if [[ $(uname -s | grep Darwin) ]]; then
+    echo -e "${RED}>>> This delete logic won't work on a Mac!${WHI}"
+    exit 1
+  fi
+
+  echo "${GRE}>>> Deleting backups...${WHI}"
+  delete_backups
+}
+
+main "$@"

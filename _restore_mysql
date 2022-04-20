@@ -4,6 +4,8 @@
 
 source .env
 
+FILE_TO_BE_BACKED_UP="$BACKUP_DIR/XXX.sql"
+
 mysql \
   --user="$MYSQL_USER" \
   --host="$MYSQL_HOST" \
@@ -14,4 +16,4 @@ mysql \
   --user="$MYSQL_USER" \
   --host="$MYSQL_HOST" \
   --database="$MYSQL_DATABASE" \
-  --password="$MYSQL_PASSWORD" <"sql-dump/20220323.sql"
+  --password="$MYSQL_PASSWORD" <"$FILE_TO_BE_BACKED_UP"

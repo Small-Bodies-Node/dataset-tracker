@@ -2,7 +2,7 @@ FROM php:7.4-apache
 
 RUN apt update -y
 RUN apt upgrade -y
-RUN apt install -y vim
+# RUN apt install -y vim
 
 # Modules added by tools found through trial/error
 # See this note: https://github.com/docker-library/docs/tree/master/php#e-package-php-xxx-has-no-installation-candidate

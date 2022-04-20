@@ -10,3 +10,5 @@
 .htpasswd
 
 sql-dump/*.sql
+
+temp
