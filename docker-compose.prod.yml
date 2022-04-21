@@ -3,6 +3,7 @@ services:
   php:
     container_name: apache-php74
     image: apache-php74-prod
+    restart: always
     build:
       dockerfile: Dockerfile.prod
       context: .
