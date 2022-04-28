@@ -3,7 +3,9 @@
 # Determine if a dated file needs to be removed or not (and delete accordingly)
 # Modified from: https://opensource.com/article/18/8/automate-backups-raspberry-pi
 
-source .env
+FULL_PATH_TO_THIS_SCRIPT="$(realpath "${BASH_SOURCE[-1]}")"
+THIS_SCRIPT_DIRECTORY="$(dirname "$FULL_PATH_TO_THIS_SCRIPT")"
+source "$THIS_SCRIPT_DIRECTORY/.env"
 
 ##################################################
 # Create logical dated backup file from mysql DB

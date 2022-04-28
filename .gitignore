@@ -6,9 +6,8 @@
 .DS_Store
 **/error_log
 .notes
-
 .htpasswd
-
 sql-dump/*.sql
-
 temp
+ssl-config/*.pem
+ssl-config/*.php

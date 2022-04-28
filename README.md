@@ -23,6 +23,7 @@ In addition to the quick start instructions, you need to:
 - create a `.htpasswd` file in the root of this project and enter credentials for `admin`, `user`, `view` and `util`. The format for these credentials can be seen in the `src/.htpasswd` file. To generate a new line for each user-password combo, run `htpasswd -n admin`, etc. on a unix command line, enter a password, and copy the output to a new line within the `.htpasswd` file.
 - Begin daemonized docker containers in production mode with `docker-compose -f docker-compose.prod.yml up -d`
 - End daemonized docker containers in production mode with `docker-compose -f docker-compose.prod.yml down`
+- Follow instructions within `./ssl-config/README.md` to enable SSL connections
 
 ## Utils
 

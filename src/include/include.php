@@ -12,6 +12,19 @@ function connectToDB()
         getenv('MYSQL_PASSWORD'),
         getenv('MYSQL_DATABASE')
     );
+    // Activate SSL connection
+    mysqli_ssl_set(null, null, '/etc/ssl/rds-combined-ca-bundle.pem', null, null);
+    if (! mysqli_real_connect(
+        $dbLink,
+        getenv('MYSQL_HOST'),
+        getenv('MYSQL_USER'),
+        getenv('MYSQL_PASSWORD'),
+        getenv('MYSQL_DATABASE')
+    )
+    ) {
+        die("Connect Error: " . mysqli_connect_error());
+    }
+
     return $dbLink;
 }
 // Define Global Constant
