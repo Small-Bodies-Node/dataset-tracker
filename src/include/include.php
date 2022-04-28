@@ -13,7 +13,7 @@ function connectToDB()
         getenv('MYSQL_DATABASE')
     );
     // Activate SSL connection
-    mysqli_ssl_set(null, null, '/etc/ssl/rds-combined-ca-bundle.pem', null, null);
+    mysqli_ssl_set($dbLink, null, null, '/etc/ssl/rds-combined-ca-bundle.pem', null, null);
     if (! mysqli_real_connect(
         $dbLink,
         getenv('MYSQL_HOST'),
